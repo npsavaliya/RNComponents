@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import styles from './Styles/NoDataFoundStyles';
 import PropTypes from 'prop-types';
-import { Metrics } from '../Themes';
 
 function NoDataFound(props) {
   return (

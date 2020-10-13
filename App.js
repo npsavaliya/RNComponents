@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -23,15 +23,39 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import HooksComponent from './App/Components/HooksComponent';
+import ComponentTemplate from './App/Components/ComponentTemplate';
 import NoDataFound from './App/Components/NoDataFound';
+import { HeaderCenterText } from './App/Components/Headers';
+import { Overlay, Button } from 'react-native-elements';
 
 const App: () => React$Node = () => {
+  const [visible, setVisible] = useState(false);
+  const toggleOverlay = () => setVisible(!visible);
+  
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeAreaView}>
-        <NoDataFound />
-      </SafeAreaView>
+      {/* <SafeAreaView style={styles.safeAreaView}> */}
+      {/* <HooksComponent /> */}
+      <View style={styles.safeAreaView}>
+        <HeaderCenterText leftPress={toggleOverlay} />
+        <Overlay isVisible={visible}>
+          <View>
+            <Text>Hello from Overlay!</Text>
+            <Button
+              icon={{
+                name: 'close',
+                size: 20,
+                color: '#FFFFFF',
+              }}
+              title="Close"
+              onPress={toggleOverlay}
+            />
+          </View>
+        </Overlay>
+      </View>
+      {/* </SafeAreaView> */}
     </>
   );
   // return (
@@ -84,6 +108,11 @@ const App: () => React$Node = () => {
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
+    paddingTop: Platform.select({
+      // ios: isIPhoneX() ? 44 : 20,
+      android: StatusBar.currentHeight,
+      default: 0
+    }),
   },
   scrollView: {
     backgroundColor: Colors.lighter,
